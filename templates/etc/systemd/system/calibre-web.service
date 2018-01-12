@@ -1,0 +1,11 @@
+[Unit]
+Description=Calibre Web Daemon
+
+[Service]
+User={{ calibre_user }}
+Group={{ calibre_group }}
+WorkingDirectory={{ calibre_home }}
+ExecStart={{ calibre_home }}/.env/bin/python {{ calibre_home }}/web/cps.py  -p {{ calibre_home }}/settings.db
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,96 @@
+---
+
+- name: create group
+  group:
+    name: "{{ calibre_group }}"
+    state: present
+
+- name: create user
+  user:
+    name: "{{ calibre_user }}"
+    group: "{{ calibre_group }}"
+    home: "{{ calibre_home }}"
+
+- name: requirements
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - imagemagick
+    - calibre
+    - git
+
+- name: library
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ calibre_user }}"
+    group: "{{ calibre_group }}"
+  with_items:
+    - "{{ calibre_home }}/library"
+
+- name: upload
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ calibre_user }}"
+    group: "{{ calibre_upload_group | default(calibre_group) }}"
+  with_items:
+    - "{{ calibre_home }}/upload"
+
+- name: download calibre-web
+  become: true
+  become_user: "{{ calibre_user }}"
+  git:
+    repo: "{{ calibre_web_git_url }}"
+    dest: "{{ calibre_home }}/web"
+    version: "{{ calibre_web_version }}"
+    force: yes
+
+- name: python
+  include_role:
+    name: pyslackers.python
+  vars:
+    virtualenvs:
+      calibre:
+        path: "{{ calibre_home }}/.env"
+        version: 2.7.14
+        requirements: "{{ calibre_home }}/web/requirements.txt"
+
+- include_tasks: kindlegen.yml
+
+- name: Systemd directory
+  file:
+    path: /etc/systemd/system
+    state: directory
+
+- name: Systemd service
+  template:
+    src: "etc/systemd/system/{{ item }}.service"
+    dest: "/etc/systemd/system/{{ item }}.service"
+  with_items:
+    - calibre-web
+    - calibre-import
+  notify:
+    - restart calibre-web
+    - restart calibre-import
+
+- name: Systemd timers
+  template:
+    src: "etc/systemd/system/{{ item }}.timer"
+    dest: "/etc/systemd/system/{{ item }}.timer"
+  with_items:
+    - calibre-import
+  notify:
+    - restart calibre-import
+
+- name: Systemd Enabled
+#  tags:
+#    - travis-exempt
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - calibre-web.service
+    - calibre-import.timer
