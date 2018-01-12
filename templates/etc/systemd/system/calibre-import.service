@@ -1,0 +1,9 @@
+[Unit]
+Description=Calibre Import Daemon
+
+[Service]
+Type=oneshot
+User={{ calibre_user }}
+Group={{ calibre_group }}
+WorkingDirectory={{ calibre_home }}
+ExecStart=/usr/bin/calibredb add /home/calibre/upload/* --library-path /home/calibre/library

@@ -1,0 +1,19 @@
+---
+
+- name: restart calibre-web
+  service:
+    name: "{{ item }}"
+    state: restarted
+    daemon-reload: true
+    enabled: true
+  with_items:
+    - calibre-web.service
+
+- name: restart calibre-import
+  service:
+    name: "{{ item }}"
+    state: restarted
+    daemon-reload: true
+    enabled: true
+  with_items:
+    - calibre-import.timer

@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Calibre Import Timer
+
+[Timer]
+OnCalendar=*:0/10
+
+[Install]
+WantedBy=multi-user.target

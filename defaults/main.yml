@@ -1,0 +1,9 @@
+---
+
+calibre_user: calibre
+calibre_group: calibre
+calibre_home: /home/calibre
+calibre_web_git_url: https://github.com/janeczku/calibre-web.git
+calibre_web_version: master
+
+kindlegen_version: "2_9"
