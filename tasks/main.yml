@@ -46,6 +46,8 @@
     dest: "{{ calibre_home }}/web"
     version: "{{ calibre_web_version }}"
     force: yes
+  notify:
+    - restart calibre-web
 
 - name: python
   include_role:
