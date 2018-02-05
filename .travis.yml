@@ -20,6 +20,7 @@ install:
 
   # Install requirements
   - git clone https://github.com/pyslackers/ansible-role-python ../pyslackers.python
+  - git clone https://github.com/pyslackers/ansible-role-nginx ../pyslackers.nginx
 
 script:
   # Run playbook.
@@ -31,6 +32,7 @@ script:
   # Tests
   - docker exec --tty $container_id env TERM=xterm apt-get install -y curl
   - docker exec --tty $container_id env TERM=xterm curl localhost:8083 -v
+  - docker exec --tty $container_id env TERM=xterm curl localhost:80 -v
   - docker exec --tty $container_id env TERM=xterm systemctl status calibre-web.service --no-pager | grep "active (running)"
   - docker exec --tty $container_id env TERM=xterm systemctl status calibre-import.service --no-pager | grep "inactive (dead)"
   - docker exec --tty $container_id env TERM=xterm systemctl status calibre-import.timer --no-pager | grep "active (waiting)"

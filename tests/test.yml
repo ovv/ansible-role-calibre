@@ -1,4 +1,12 @@
 ---
 - hosts: localhost
+  vars:
+    ufw_enabled: False
+    nginx_sites:
+      calibre:
+        locations:
+          - location: /
+            proxy_pass: http://127.0.0.1:8083
   roles:
     - ansible-role-calibre
+    - pyslackers.nginx
