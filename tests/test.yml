@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
   vars:
+    ufw_enabled: False
     nginx_sites:
       calibre:
         locations:
