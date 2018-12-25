@@ -13,12 +13,11 @@
 
 - name: requirements
   apt:
-    pkg: "{{ item }}"
+    pkg:
+      - imagemagick
+      - calibre
+      - git
     state: latest
-  with_items:
-    - imagemagick
-    - calibre
-    - git
 
 - name: library
   file:
