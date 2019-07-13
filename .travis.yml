@@ -26,7 +26,8 @@ script:
   # Run playbook.
   - docker exec --tty $container_id env TERM=xterm ansible-playbook /etc/ansible/roles/ansible-role-calibre/tests/test.yml --syntax-check
   - docker exec $container_id env TERM=xterm env ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/roles/ansible-role-calibre/tests/test.yml -vvv
-  - docker exec $container_id ansible-playbook /etc/ansible/roles/ansible-role-calibre/tests/test.yml | tee -a $idempotence
+#  - docker exec $container_id ansible-playbook /etc/ansible/roles/ansible-role-calibre/tests/test.yml | tee -a $idempotence
+  - docker exec $container_id env TERM=xterm env ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/roles/ansible-role-calibre/tests/test.yml -vvv
   - tail $idempotence | grep -q 'changed=0.*failed=0' && (printf 'Idempotence test pass') || (printf 'Idempotence test fail' && exit 1)
 
   # Tests
