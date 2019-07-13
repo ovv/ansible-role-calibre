@@ -55,7 +55,7 @@
     virtualenvs:
       calibre:
         path: "{{ calibre_home }}/.env"
-        version: 2.7.14
+        version: 3.6.9
         requirements: "{{ calibre_home }}/web/requirements.txt"
 
 - include_tasks: kindlegen.yml
