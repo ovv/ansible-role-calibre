@@ -50,7 +50,7 @@
 
 - name: python
   include_role:
-    name: pyslackers.python
+    name: python
   vars:
     virtualenvs:
       calibre:

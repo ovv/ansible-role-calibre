@@ -19,7 +19,7 @@ install:
   - docker ps
 
   # Install requirements
-  - git clone https://github.com/pyslackers/ansible-role-python ../pyslackers.python
+  - git clone https://github.com/pyslackers/ansible-role-python ../python
   - git clone https://github.com/pyslackers/ansible-role-nginx ../pyslackers.nginx
 
 script:
