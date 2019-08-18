@@ -1,5 +1,30 @@
 ---
 
+- name: Extract kindlegen
+  listen: Install kindlegen
+  unarchive:
+    src: "{{ calibre_home }}/kindlegen_{{ kindlegen_version }}.tar.gz"
+    dest: "{{ calibre_home }}/kindlegen/"
+    remote_src: yes
+    extra_opts: --no-same-owner
+    owner: "{{ calibre_user }}"
+    group: "{{ calibre_group }}"
+
+- name: Kindlegen permission
+  listen: Install kindlegen
+  file:
+    path: "{{ calibre_home }}/kindlegen/kindlegen"
+    mode: 0744
+    owner: "{{ calibre_user }}"
+    group: "{{ calibre_group }}"
+
+- name: Link kindlegen
+  listen: Install kindlegen
+  file:
+    src: "{{ calibre_home }}/kindlegen/kindlegen"
+    dest: "{{ calibre_home }}/web/vendor/kindlegen"
+    state: link
+
 - name: restart calibre-web
   service:
     name: "{{ item }}"

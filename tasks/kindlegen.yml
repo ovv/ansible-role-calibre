@@ -5,7 +5,7 @@
     url: "http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v{{ kindlegen_version }}.tar.gz"
     dest: "{{ calibre_home }}/kindlegen_{{ kindlegen_version }}.tar.gz"
     checksum: sha512:5bd4928785ee06d92de1991a34029ffe343c087b4311f52c83df8d821d826b2e42f29e3047c0536140457fd478d300f621648f9eaef3a6568431a791e8147937
-  register: kindlegen_download
+  notify: Install kindlegen
 
 - name: directories
   file:
@@ -16,26 +16,3 @@
   with_items:
     - /web/vendor
     - /kindlegen
-
-- name: extract kindlegen
-  unarchive:
-    src: "{{ calibre_home }}/kindlegen_{{ kindlegen_version }}.tar.gz"
-    dest: "{{ calibre_home }}/kindlegen/"
-    remote_src: yes
-    extra_opts: --no-same-owner
-    owner: "{{ calibre_user }}"
-    group: "{{ calibre_group }}"
-  when: kindlegen_download.changed
-
-- name: permission
-  file:
-    path: "{{ calibre_home }}/kindlegen/kindlegen"
-    mode: 0744
-    owner: "{{ calibre_user }}"
-    group: "{{ calibre_group }}"
-
-- name: link kindlegen
-  file:
-    src: "{{ calibre_home }}/kindlegen/kindlegen"
-    dest: "{{ calibre_home }}/web/vendor/kindlegen"
-    state: link

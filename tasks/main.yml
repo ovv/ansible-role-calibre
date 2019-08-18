@@ -17,7 +17,7 @@
       - imagemagick
       - calibre
       - git
-    state: latest
+    state: present
 
 - name: library
   file:
